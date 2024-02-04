@@ -23,7 +23,15 @@ import { LOGS } from "@/app/constants/logs";
 async function getYurbos() {
   // Type guard function (know if this is right!)
   function isYurbo(y: any): y is Yurbo {
-    return y && "lat" in y && "long" in y && "name" in y && "created_at" in y;
+    return (
+      y &&
+      "lat" in y &&
+      "long" in y &&
+      "name" in y &&
+      "email" in y &&
+      "description" in y &&
+      "event_id" in y
+    );
   }
   try {
     const session = await getServerSession(authOptions);
@@ -36,18 +44,14 @@ async function getYurbos() {
     }
 
     // get yurbos for this user
-    const yurbo_snapshot = await getDocs(
-      query(
-        collection(db, "users", session.user.email, "yurbos")
-        // orderBy("timestamp", "desc")
-      )
-    );
+    const yurbo_snapshot = await getDocs(query(collection(db, "events")));
 
     let yurbos: Yurbo[] = [];
 
     // populate yurbos array. Not sure whats the best way to do type stuff but i tried
     yurbo_snapshot.forEach((doc) => {
       const y = { id: doc.id, ...doc.data() };
+      console.log("a yurb", y);
       // ensure data exists && is a Yurbo before pushing
       if (isYurbo(y)) {
         yurbos.push(y);
@@ -107,9 +111,9 @@ export default async function Map() {
               <li key={"coord " + y.lat} className="pr-2">
                 {y.lat} x {y.long}
               </li>
-              {y.created_at && (
+              {y.start_time && (
                 <li key={y.name} className="pr-4">
-                  {new Date(y.created_at.seconds * 1000).toLocaleDateString()}
+                  {new Date(y.start_time.seconds * 1000).toLocaleDateString()}
                 </li>
               )}
             </div>

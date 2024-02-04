@@ -3,9 +3,16 @@
 /*
 Form layout:
 Event type (dropdown menu)
-Number of players (slider)
+Number of players needed (slider) | (number of players present displayed next to it)
 Desired Skill level (novice, intermediate, advanced, professional)
+Start time
 Additional Comments
+
+These get displayed on map.
+Click a pin on map, see number of people
+
+todo:
+how to store locations since all of them have to be public? should be posted into global bin
 
 
 */
@@ -23,6 +30,7 @@ interface Values {
   lat: number;
   long: number;
   act_id: string;
+  desc: string;
 }
 
 const name = "name";
@@ -56,7 +64,7 @@ export default function Form() {
   };
 
   const formik = useFormik<Values>({
-    initialValues: { name: "", lat: 0, long: 0, act_id: "" },
+    initialValues: { name: "", lat: 0, long: 0, act_id: "", desc: "" },
     validationSchema: Yup.object().shape({
       [name]: Yup.string()
         .min(3, "Must be at least 3 characters")
@@ -64,12 +72,13 @@ export default function Form() {
 
       lat: Yup.number().required(YUP.REQUIRED),
       long: Yup.number().required(YUP.REQUIRED),
-      loc_id: Yup.string()
+      act_id: Yup.string()
         .oneOf(
           acts.map((a) => a.id),
-          "invalid location"
+          "invalid event type"
         )
         .required(YUP.REQUIRED),
+      desc: Yup.string(),
     }),
     onSubmit,
   });
@@ -136,9 +145,9 @@ export default function Form() {
         <div className="flex flex-col w-full items-start my-5">
           <label htmlFor="loc_id">Select the Activity:</label>
 
-          <select id="loc_id" {...formik.getFieldProps("loc_id")}>
+          <select id="act_id" {...formik.getFieldProps("act_id")}>
             <option value="">Select an Event Type</option>
-            {acts.map((option, index) => (
+            {acts.map((option) => (
               <option key={option.id} value={option.id}>
                 {option.name}
               </option>
@@ -181,6 +190,20 @@ export default function Form() {
             className={`text-red-600 h-5 ${!formik.errors.long && "invisible"}`}
           >
             {formik.errors.long}
+          </p>
+        </div>
+        <div className="flex flex-col w-full items-start my-5">
+          <label htmlFor="lat">description </label>
+          <input
+            className="text-black text-left w-full h-1/3"
+            id="desc"
+            type="text"
+            {...formik.getFieldProps("desc")}
+          />
+          <p
+            className={`text-red-600 h-5 ${!formik.errors.lat && "invisible"}`}
+          >
+            {formik.errors.desc}
           </p>
         </div>
         {/* Autofill current coordinates */}

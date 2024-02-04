@@ -8,11 +8,11 @@ export default function HomePage() {
       </Link>
 
       <Link href={"/event/create"} className="rounded-lg border-2 border-white">
-        Create a new Event type
+        Create a new Event Type
       </Link>
 
       <Link href={"/map"} className="rounded-lg border-2 border-white">
-        Check out current Events
+        Map
       </Link>
     </div>
   );

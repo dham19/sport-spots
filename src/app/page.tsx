@@ -4,7 +4,7 @@ import { useSession, signIn } from "next-auth/react";
 import HomePage from "./HomePage";
 import { RotatingLines } from "react-loader-spinner";
 
-export default function Home() {
+export default function Home({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
 
   return (

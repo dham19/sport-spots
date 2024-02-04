@@ -71,12 +71,13 @@ declare interface Location {
 /* Class for a Yurbo */
 declare interface Yurbo {
   id: string;
-  created_at: Timestamp;
-  location_id?: string;
-  act_id?: string;
+  email: string;
+  start_time: Timestamp;
+  act_id: string;
   name: string;
   lat: number;
   long: number;
+  description: string;
 }
 
 /* Class for Event/Activity */

@@ -18,7 +18,7 @@ import { Yurbo } from "@/types/types";
 
 export async function GET() {
   function isYurbo(y: any): y is Yurbo {
-    return y && "lat" in y && "long" in y && "name" in y && "created_at" in y;
+    return y && "lat" in y && "long" in y && "name" in y;
   }
 
   try {
@@ -35,7 +35,7 @@ export async function GET() {
     // get yurbos for this user
     const yurbo_snapshot = await getDocs(
       query(
-        collection(db, "users", session.user.email, "yurbos")
+        collection(db, "events")
         // orderBy("timestamp", "desc")
       )
     );
