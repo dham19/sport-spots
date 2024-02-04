@@ -96,7 +96,7 @@ export default async function Map() {
         <div className="flex flex-row justify-between mr-5 border-b mb-2 pb-1">
           <h2 className="font-bold text-lg">Your Yurbos</h2>
           <h2 className="font-bold">Coordinates</h2>
-          <h2 className="font-bold">Created on</h2>
+          <h2 className="font-bold">Starts</h2>
         </div>
 
         <ul>

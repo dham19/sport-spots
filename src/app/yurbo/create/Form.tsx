@@ -24,6 +24,7 @@ import { Act, CreateYurboResponse } from "@/types/types";
 import { getErrorMessgaeSuccess } from "@/app/constants/errors";
 import { useEffect, useState } from "react";
 import { Location } from "@/types/types";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 interface Values {
   name: string;
@@ -192,6 +193,8 @@ export default function Form() {
             {formik.errors.long}
           </p>
         </div>
+        <div>{/* <DateTimePicker label="Basic date time picker" /> */}</div>
+
         <div className="flex flex-col w-full items-start my-5">
           <label htmlFor="lat">description </label>
           <input

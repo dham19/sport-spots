@@ -22,13 +22,12 @@ export async function POST(request: CreateYurboRequest) {
       );
     }
     const email = session.user.email;
-
     const docRef = doc(collection(db, "events"));
 
     // add new personal yurbo
     await setDoc(docRef, {
       email,
-      event_id: act_id,
+      act_id: act_id,
       name,
       lat,
       long,
