@@ -1,15 +1,15 @@
 import { getServerSession } from "next-auth";
-import { CreateYurboRequest, CreateYurboResponse } from "@/types/types";
+import { CreateLocationRequest } from "@/types/types";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { doc, setDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase";
 import { LOGS } from "@/app/constants/logs";
 import { ERRORS, getErrorMessage } from "@/app/constants/errors";
 
-export async function POST(request: CreateYurboRequest) {
+export async function POST(request: CreateLocationRequest) {
   const body = await request.json();
 
-  const { name, lat, long, loc_id } = body; // js destructuring
+  const { name, lat, long } = body; // js destructuring
 
   try {
     const session = await getServerSession(authOptions);
@@ -17,26 +17,26 @@ export async function POST(request: CreateYurboRequest) {
     // no user found in session
     if (!session?.user?.email) {
       return Response.json(
-        { success: false, mesage: ERRORS.UNATHORIZED },
+        { success: false, message: ERRORS.UNATHORIZED },
         { status: 401 }
       );
     }
 
-    const docRef = doc(collection(db, "users", session.user.email, "yurbos"));
+    const docRef = doc(
+      collection(db, "users", session.user.email, "locations")
+    );
 
     // add new personal yurbo
     await setDoc(docRef, {
       name,
       lat,
       long,
-      location_id: loc_id,
-      created_at: serverTimestamp(),
     });
 
     // return successful response
-    console.log(LOGS.YURBO.CREATED, name, lat, long);
+    console.log(LOGS.LOCATION.CREATED, name, lat, long);
     return Response.json(
-      { message: LOGS.YURBO.CREATED, success: true, name, lat, long, loc_id },
+      { message: LOGS.LOCATION.CREATED, success: true, name, lat, long },
       { status: 200 }
     );
   } catch (error) {
@@ -44,7 +44,7 @@ export async function POST(request: CreateYurboRequest) {
 
     // failure
     console.error(
-      ERRORS.YURBO.CREATED,
+      ERRORS.LOCATION.CREATED,
       JSON.stringify({ message: errorMessage, name, lat, long })
     );
     return Response.json(

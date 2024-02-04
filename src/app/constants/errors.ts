@@ -1,19 +1,24 @@
 export const ERRORS = {
   EVENT: {
-    CREATED: 'Event failed to create',
+    CREATED: "Event failed to create",
   },
   YURBO: {
-    CREATED: 'Yurbo failed to create',
+    CREATED: "Yurbo failed to create",
+    GOT: "Yurbos failed to be retrieved",
   },
-  UNATHORIZED: 'User not authorized',
-  UNKNOWN: 'An unknown error occurred',
+  LOCATION: {
+    CREATED: "Location failed to create",
+    GOT: "Locations failed to be retrieved",
+  },
+  UNATHORIZED: "User not authorized",
+  UNKNOWN: "An unknown error occurred",
 };
 
 export const getMessage = (object: any) =>
-  'message' in object ? object.message : false;
+  "message" in object ? object.message : false;
 
 export const getSuccess = (object: any) =>
-  'success' in object ? object.success : false;
+  "success" in object ? object.success : false;
 
 export const getMessgaeSuccess = (object: any) => ({
   success: getSuccess(object),
